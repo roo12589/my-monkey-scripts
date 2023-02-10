@@ -44,7 +44,6 @@
     let videoSpeedElement = document.createElement("div"),
         currentHref = "",
         viewReportDiv;
-    //viewReportDiv.setAttribute("style","position:relative;");
     videoSpeedElement.setAttribute("id", "video_speed_div");
     videoSpeedElement.setAttribute("style", "position:relative;top:-13.5px;right:0;");
     videoSpeedElement.style.width = "1000px";
@@ -77,32 +76,24 @@
 
         let ev = e || window.event; // for IE to cover IEs window event-object
 
-
         // z切换开关倍速 和点击currentSpeedBtn一样
-
         if (ev.key === 'z') {
-
             if (isOpen) {
                 isOpen = false
                 videoSpeedBack = getSpeed()
                 changeVideoSpeed(1, false)
-                // currentSpeedBtn.innerHTML = "关闭"||"x" + 1;
-                // createNoti("关闭倍速")
+
             } else {
                 isOpen = true
                 changeVideoSpeed(videoSpeedBack)
-                // currentSpeedBtn.innerHTML = "x" + videoSpeedBack;
                 videoSpeedBack = undefined
-                // createNoti("开启倍速")
             }
         }
         if (ev.key === "c") {
-            //currentSpeedBtnContainer.children[1].innerHTML = "x" + ((speed * 10 + 1) / 10);
             playerSpeedButton && (playerSpeedButton.innerText = third_video_plugin_speed + "x");
             changeVideoSpeed((speed * 10 + 1) / 10)
             return false;
         } else if (ev.key === "x") {
-            //currentSpeedBtnContainer.children[1].innerHTML = "x" + ((speed * 10 - 1) / 10);
             playerSpeedButton && (playerSpeedButton.innerText = third_video_plugin_speed + "x");
             changeVideoSpeed((speed * 10 - 1) / 10)
             return false;
@@ -122,30 +113,11 @@
 
     function addSpeedBtns() {
         viewReportDiv = document.querySelector("#viewbox_report").querySelector(".video-data:last-child");
-        // 创建一个设置倍速的按钮
-        // let speedsettingsbtn = document.createElement("button");
-        // speedsettingsbtn.innerHTML = "&nbsp;&nbsp;高速&nbsp;&nbsp;";
-        // speedsettingsbtn.style.backgroundColor = "#ffe2ef";
-        // speedsettingsbtn.style.color = "rgb(255,175,201)";
-        // speedsettingsbtn.setAttribute("id", "third_video_plugin_btn");
-        // speedsettingsbtn.setAttribute("style", "box-sizing: border-box;border: 1px solid rgb(255,175,201);color:rgb(255,175,201);background:#fff2f5;height:22px;display:none");
-
-        // let myDefine = document.createElement("button");
-        // myDefine.innerHTML = "&nbsp;&nbsp;低速&nbsp;&nbsp;";
-        // myDefine.style.backgroundColor = "#ffe2ef";
-        // myDefine.style.color = "rgb(255,175,201)";
-        // myDefine.setAttribute("id", "third_video_plugin_btn1");
-        // myDefine.setAttribute("style", "box-sizing: border-box;border: 1px solid rgb(255,175,201);color:rgb(255,175,201);background:#fff2f5;height:22px;display:none");
-        //videoTop.appendChild(myDefine);
 
         initBtn();
 
         videoBottom.setAttribute("class", "video-speed-box")
         videoTop.setAttribute("class", "video-speed-box")
-        // videoBottom.style.width = "100%";
-        // videoBottom.style.height = "28px";
-        // videoTop.style.width = "100%";
-        // videoTop.style.height = "28px";
         videoBottom.setAttribute("id", "video-speed-box-bottom");
         videoTop.setAttribute("id", "video-speed-box-top");
         videoSpeedElement.appendChild(videoTop);
@@ -188,22 +160,16 @@
         currentSpeedBtn.setAttribute("class", "video_speed_div-button-active");
         currentSpeedBtn.setAttribute("id", "current-speed-btn");
         // 鼠标切换开关倍速
-        // var videoSpeedBack
-        // var isOpen = true
-        currentSpeedBtn.onclick = function (e) {
 
+        currentSpeedBtn.onclick = function (e) {
             if (isOpen) {
                 isOpen = false
                 videoSpeedBack = getSpeed()
                 changeVideoSpeed(1, false)
-                // currentSpeedBtn.innerHTML = "关闭"||"x" + 1;
-                // createNoti("关闭倍速")
             } else {
                 isOpen = true
                 changeVideoSpeed(videoSpeedBack)
-                // currentSpeedBtn.innerHTML = "x" + videoSpeedBack;
                 videoSpeedBack = undefined
-                // createNoti("开启倍速")
             }
         }
         // 滚轮上下加减倍速
@@ -250,7 +216,6 @@
             localStorage.setItem("video_speed", speed);
         }
         document.querySelector(".video_speed_div-button-active").innerHTML = save ? "x" + speed : "关闭";
-        //highlightBtn(speed);
         let videoObj = document.querySelector("video");
         if (!videoObj) videoObj = document.querySelector("bwp-video");
         if (videoObj) {
