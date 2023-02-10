@@ -1,15 +1,16 @@
 // ==UserScript==
 // @name         bilibili倍速重制
 // @namespace    none
-// @version      1.2
+// @version      1.3
 // @description  bilibili播放视频倍速,支持按钮、键盘X,C及滚轮控制
 // @author       none
 // @match      *://*.bilibili.com/video/*
 // @grant        none
 // ==/UserScript==
-// 存在不必要问题：调整原播放器速度不与插件显示速度同步 || 后退网页不保持播放速度
+// 存在不必要问题：后退网页不保持播放速度
 // 1.1 支持 当前速度按钮 滚轮控制
 // 1.2 支持 当前速度按钮 快捷切换开关倍速
+// 1.3 修改开关逻辑
 (function () {
     "use strict";
     /* 监听history改变 防止视频换p导致倍速丢失 */
@@ -38,7 +39,7 @@
     // 全局保存速度备份
     var videoSpeedBack
     var isOpen = true
-    
+
     // 创建元素div
     let videoSpeedElement = document.createElement("div"),
         currentHref = "",
@@ -79,20 +80,20 @@
 
         // z切换开关倍速 和点击currentSpeedBtn一样
 
-        if(ev.key ==='z') {
+        if (ev.key === 'z') {
 
             if (isOpen) {
                 isOpen = false
                 videoSpeedBack = getSpeed()
-                changeVideoSpeed(1)
-                currentSpeedBtn.innerHTML = "x" + 1;
-                createNoti("关闭倍速")
+                changeVideoSpeed(1, false)
+                // currentSpeedBtn.innerHTML = "关闭"||"x" + 1;
+                // createNoti("关闭倍速")
             } else {
                 isOpen = true
                 changeVideoSpeed(videoSpeedBack)
-                currentSpeedBtn.innerHTML = "x" + videoSpeedBack;
+                // currentSpeedBtn.innerHTML = "x" + videoSpeedBack;
                 videoSpeedBack = undefined
-                createNoti("开启倍速")
+                // createNoti("开启倍速")
             }
         }
         if (ev.key === "c") {
@@ -194,15 +195,15 @@
             if (isOpen) {
                 isOpen = false
                 videoSpeedBack = getSpeed()
-                changeVideoSpeed(1)
-                currentSpeedBtn.innerHTML = "x" + 1;
-                createNoti("关闭倍速")
+                changeVideoSpeed(1, false)
+                // currentSpeedBtn.innerHTML = "关闭"||"x" + 1;
+                // createNoti("关闭倍速")
             } else {
                 isOpen = true
                 changeVideoSpeed(videoSpeedBack)
-                currentSpeedBtn.innerHTML = "x" + videoSpeedBack;
+                // currentSpeedBtn.innerHTML = "x" + videoSpeedBack;
                 videoSpeedBack = undefined
-                createNoti("开启倍速")
+                // createNoti("开启倍速")
             }
         }
         // 滚轮上下加减倍速
@@ -226,10 +227,16 @@
         };
         currentSpeedBtnContainer.appendChild(currentSpeedBtn);
     }
-
-    function changeVideoSpeed(x) {
+    /**
+     * 
+     * @param {number} x speed
+     * @param {boolean} save 是否保存到local
+     * @returns 
+     */
+    function changeVideoSpeed(x, save = true) {
         const min = 0.1, max = 16.0
         if (x > max || x < min) return
+        // bibibili播放器内置速度显示
         const playerSpeedButton = document.querySelector(".bilibili-player-video-btn-speed-name")
         let speed
         if (typeof x == 'number') {
@@ -239,18 +246,19 @@
         } else {
             speed = parseFloat(x.target.innerHTML.replace("x", ""));
         }
-        localStorage.setItem("video_speed", speed);
-        document.querySelector(".video_speed_div-button-active").innerHTML = "x" + speed;
+        if (save) {
+            localStorage.setItem("video_speed", speed);
+        }
+        document.querySelector(".video_speed_div-button-active").innerHTML = save ? "x" + speed : "关闭";
         //highlightBtn(speed);
         let videoObj = document.querySelector("video");
         if (!videoObj) videoObj = document.querySelector("bwp-video");
         if (videoObj) {
             videoObj.playbackRate = speed;
             console.log(videoObj.playbackRate)
-            playerSpeedButton && (playerSpeedButton.innerText = speed + "x");
-
+            playerSpeedButton && (playerSpeedButton.innerText = save ? speed + "x" : "关闭");
         }
-        createNoti()
+        createNoti(save ? getSpeed().toFixed(1) : "关闭")
     }
 
     function resetVideoSpeed() {
@@ -299,7 +307,7 @@
             ele && ele.appendChild(div)
         } else {
             window.noti.style.display = 'block',
-                window.noti.innerText = getSpeed()
+                window.noti.innerText = text
         }
         timer = setTimeout(function () { window.noti.style.display = "none" }, 1300)
 
