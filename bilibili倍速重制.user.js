@@ -11,6 +11,7 @@
 // 1.1 支持 当前速度按钮 滚轮控制
 // 1.2 支持 当前速度按钮 快捷切换开关倍速
 // 1.3 修改开关逻辑
+// 1.4 添加up主白名单
 (function () {
     "use strict";
     /* 监听history改变 防止视频换p导致倍速丢失 */
@@ -39,6 +40,14 @@
     // 全局保存速度备份
     var videoSpeedBack
     var isOpen = true
+    const nameWhiteList = localStorage.getItem('nameWhiteList').split(',')
+    for (name of nameWhiteList) {
+
+        if (document.querySelector('.username').innerText.match(name)) {
+            isOpen = false
+            break
+        }
+    }
 
     // 创建元素div
     let videoSpeedElement = document.createElement("div"),
@@ -233,7 +242,12 @@
                 || document.querySelector("bwp-video");
             console.log('等待加载播放器...');
             if (videoObj) {
-                videoObj.playbackRate = getSpeed();
+                if (isOpen) {
+                    videoObj.playbackRate = getSpeed();
+                } else {
+                    videoSpeedBack = getSpeed()
+                    changeVideoSpeed(1, false)
+                }
                 console.log("已加载", videoObj.playbackRate)
                 coverTitle()
                 clearInterval(timer)
