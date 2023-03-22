@@ -1,2 +1,2 @@
-# bili-speed-plugin
-bili倍速插件
+# my-monkey-scripts
+自用油猴脚本

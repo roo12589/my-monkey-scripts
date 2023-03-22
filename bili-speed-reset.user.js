@@ -6,6 +6,8 @@
 // @author       none
 // @match      *://*.bilibili.com/video/*
 // @grant        none
+// @updateURL       https://github.com/roo12589/my-monkey-scripts/blob/master/bili-speed-reset.user.js
+// @downloadURL     https://github.com/roo12589/my-monkey-scripts/blob/master/bili-speed-reset.user.js
 // ==/UserScript==
 // 存在不必要问题：后退网页不保持播放速度
 // 1.1 支持 当前速度按钮 滚轮控制
@@ -14,6 +16,9 @@
 // 1.4 添加up主白名单
 (function () {
     "use strict";
+
+    initStorage();
+
     /* 监听history改变 防止视频换p导致倍速丢失 */
     const bindHistoryEvent = function (type) {
         const historyEvent = history[type];
@@ -309,6 +314,11 @@
 
     function getSpeed() {
         return parseFloat(parseFloat(localStorage.getItem('video_speed')).toFixed(1))
+    }
+    function initStorage() {
+        if (!localStorage.getItem("nameWhiteList")) {
+            localStorage.setItem("nameWhiteList", ["戒社", "罗翔"].toString())
+        }
     }
 
 })();
