@@ -1,19 +1,20 @@
 // ==UserScript==
 // @name         bilibili倍速重制
 // @namespace    none
-// @version      1.3
+// @version      1.4.1
 // @description  bilibili播放视频倍速,支持按钮、键盘X,C及滚轮控制
 // @author       none
 // @match      *://*.bilibili.com/video/*
 // @grant        none
-// @updateURL       https://github.com/roo12589/my-monkey-scripts/blob/master/bili-speed-reset.user.js
-// @downloadURL     https://github.com/roo12589/my-monkey-scripts/blob/master/bili-speed-reset.user.js
+// @updateURL       https://github.com/roo12589/my-monkey-scripts/raw/master/bili-speed-reset.user.js
+// @downloadURL     https://github.com/roo12589/my-monkey-scripts/raw/master/bili-speed-reset.user.js
 // ==/UserScript==
 // 存在不必要问题：后退网页不保持播放速度
 // 1.1 支持 当前速度按钮 滚轮控制
 // 1.2 支持 当前速度按钮 快捷切换开关倍速
 // 1.3 修改开关逻辑
 // 1.4 添加up主白名单
+// 1.4.1 修复联合创作导致读取用户失败问题
 (function () {
     "use strict";
 
@@ -46,9 +47,11 @@
     var videoSpeedBack
     var isOpen = true
     const nameWhiteList = localStorage.getItem('nameWhiteList').split(',')
+    const username = document.querySelector('.up-info_right .username')?.innerText
+    const usernameCombined = [].concat(document.querySelectorAll('.up-card .name-text'))
+        .map(el => el.innerText).toString()
     for (name of nameWhiteList) {
-
-        if (document.querySelector('.username').innerText.match(name)) {
+        if (username?.match(name) || usernameCombined?.match(name)) {
             isOpen = false
             break
         }
