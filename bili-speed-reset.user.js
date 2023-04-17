@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         bilibili倍速重制
-// @namespace    none
+// @namespace    https://github.com/roo12589
 // @version      1.4.1
 // @description  bilibili播放视频倍速,支持按钮、键盘X,C及滚轮控制
 // @author       none
@@ -8,6 +8,7 @@
 // @grant        none
 // @updateURL       https://github.com/roo12589/my-monkey-scripts/raw/master/bili-speed-reset.user.js
 // @downloadURL     https://github.com/roo12589/my-monkey-scripts/raw/master/bili-speed-reset.user.js
+// @icon         https://github.com/roo12589/my-monkey-scripts/assets/bili-favicon.ico
 // ==/UserScript==
 // 存在不必要问题：后退网页不保持播放速度
 // 1.1 支持 当前速度按钮 滚轮控制

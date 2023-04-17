@@ -3,7 +3,7 @@
 // @namespace    https://github.com/roo12589/
 // @version      0.1
 // @description  try to take over the world!
-// @author       You
+// @author       roo12589
 // @match        https://link.zhihu.com/?target=*
 // @match        https://link.juejin.cn/?target=*
 // @match        https://link.csdn.net/?target=*

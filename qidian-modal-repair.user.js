@@ -3,7 +3,7 @@
 // @namespace    https://github.com/roo12589/
 // @version      0.1
 // @description  try to take over the world!
-// @author       You
+// @author       roo12589
 // @match        https://vipreader.qidian.com/chapter/*
 // @updateURL       https://github.com/roo12589/my-monkey-scripts/blob/master/qidian-modal-repair.user.js
 // @downloadURL     https://github.com/roo12589/my-monkey-scripts/blob/master/qidian-modal-repair.user.js
